@@ -1,0 +1,511 @@
+HostName:server.Bean
+IP Address:192.168.1.6/24
+Default Route:192.168.1.1
+DNS:192.168.1.1
+root:qwer123
+Bean:qwer123
+
+Ctrl+Alt+Fn(1,2,3,4,5,6)切换虚拟控制台
+在虚拟机中按住Ctrl+Alt然后同时按下space再松开space,这时候再按Fn(1,2,3,4,5,6)
+su userName切换用户,root用户向其他用户切换时不需要输入密码,普通用户向root切换时需要输入密码,同样普通用户之间的切换也需要输入密码
+
+man命令可以查看命令的使用文档,例如man ls.
+
+Linux是一种自由和开放源码的类UNIX操作系统,是一个基于POSIX和Unix的多用户、多任务、支持多线程和躲CPU的操作系统.该操作系统的内核有Linus Torvalds(林纳斯.托尔兹)在1991年10月5日首次发布,再加上用户空间和应用程序之后成为Linux操作系统.
+Android操作系统就是创建在Linux内核之上的.
+Linux系统使用宏内核,由Linux内核负责处理进程控制、网络、以及外围设备和文件系统的访问.
+已安装的Linux操作系统包含的一些组建:
+    启动程序:例如GURUB或LILO.该程序在计算机开机启动的时候允许,并将Linux内核加载到内存中.
+    init程序:init是由Linux内核创建的第一个进程,成为跟进程,所有的系统进程都是它的子进程,即所有的进程都是通过init启动的.init启动的进程如系统服务和登陆提示(图形或终端模式的选择).
+    软件库包含代码:可以通过运行的进程在Linux系统上使用ELF格式来执行文件,负责管理库使用的动态链接器是"ld-linux.so".Linux系统上最常用的软件库是GNU C库.
+    用户界面程序:如命令行shell或窗口环境.
+Linux发行版指的就是通常所说的Linux操作系统,它一般由一些组织、团体、公司或个人制作并发行的.Linux内核只要作为Linux发行版的一部分而使用.通常来说一个Linux发行版包括Linux内核,以及将整个软件安装到计算机的一套安装工具,还有各种GNU软件和其他一些自由软件.较为知名的有Debian、Ubuntu、Fedora和openSUSE等.
+Linux一般用作服务器和网络防火墙.
+
+Linux系统中是通过ssh(Secure Shell)服务实现的远程登陆功能,默认ssh服务端口号为22.
+Windows系统上Linux远程登陆客户端有SecureCRT、Putty、SSH Secure Shell等.Putty可以到putty.org下载.Linux服务器有安装ssh的情况下在Windows机器上可以在命令行上直接远程登陆,登陆示例为:ssh -p port username@hostname.例如:ssh -p 22 Bean@192.168.1.6
+
+
+
+默认的提示符:[username@localhost directory]$.普通用户的命令提示符是$,root的命令提示符是#,~为当前用户所在的主目录.
+
+目录结构
+    Linux有两个特殊的目录.一个使用户所在的工作目录也叫当前目录.可以使用一个点.来表示,另外一个是当前目录的上一级目录也叫父级目录,可以使用两个点..来表示.
+    .:代表当前目录,也可以用./来表示.
+    ..:代表上一次目录,也可以用../来表示.
+    如果一个目录或者文件名以一个点.开始,表示这个目录或者文件时隐藏目录或文件(如:.bashrc).即以默认方式查找时不显示该目录或文件.
+    /根目录
+    /bin bin时binary的缩写,这个目录存放着最经常使用的命令.
+    /boot 这里存放的时启动Linux时使用的一些核心文件,包括一些连接文件以及镜像文件.
+    /dev 是device(设备)的缩写,该目录存放的是Linux的外部设备,再Linux中访问设备的方式和访问文件的方式一样.
+    /etc 这个目录是用来存放所有的系统管理所需要的配置文件和子目录.
+    /home 用户的主目录,再Linux中每个用户都有自己的目录,一般该目录名称是以用户的账号命名的.
+    /lib 这个目录里存放着系统最基本的动态链接共享库,其作用类似Windows里的DLL文件,几乎所有的应用程序都需要用到这些共享库.
+    /lost+found 这个目录一般是空的,当系统非法关机后存放的一些文件.
+    /media Linux系统会自动识别一下设备,如U盘、光驱等,当时别后Linux就会把识别的设备挂载到这个目录下.
+    /mnt 系统提供该目录是为了让用户临时挂载别的文件系统,我们可以将光驱挂载再/mnt上,然后进入该目录就可以查看光驱里的内容了.
+    /opt 这是给主机额外安装软件所摆放的目录.比如安装一个Oracle数据库则就可以放在这个目录下.
+    /proc 这个目录是一个虚拟的目录,他是系统内存的映射.可以通过直接访问这个目录来获取系统信息.这个目录的内容不在硬盘而是在内存里,可以直接修改里面的某些文件.比如可以通过下面的命令修改/proc/sys/ipv4/icmp_echo_ignore_all文件内容为1来屏蔽主机的ping命令,使别人无法ping你的机器:echo 1 > /proc/sys/ipv4/icmp_echo_ignore_all.
+    /root 该目录为系统管理员root,也称为超级权限者的用户主目录.
+    /sbin 就是superuser的意思,这里存放的是系统管理员使用的系统管理程序.
+    /selinux 这个目录是Redhat/CentOS所特有的目录,selinux是一个安全机制,类似于Windows的防火墙,但是这套机制比较复杂,这个目录存放的就是selinux相关的文件.
+    /srv 该目录存放一些服务启动之后需要提取的数据.
+    /sys 这是linux2.6内核的一个很大的变化.该目录下安装了2.6内核中新出现的一个系统文件sysfs.sysfs文件系统继承了以下3种文件系统的信息:针对进程信息的proc文件系统、针对设备的devfs文件系统以及针对伪终端devpts文件系统.该文件系统是内核设备的一个直观反映.当一个内核对象被创建的时候对应的文件和目录也在内核子对象系统中被创建.
+    /tmp 这个目录是用来存放一些临时文件的.
+    /usr(Unix Software Resource) 这是一个非常重要的目录,用户的很多应用程序和文件都放在这个目录下面,类似Windows下的program files目录.
+    /usr/bin 系统使用的应用程序.
+    /usr/sbin 超级用户使用的比较高级的管理程序和系统守护程序.
+    /usr/src 内核源代码默认的存放目录.
+    /var 这个目录中存放着不断扩充的东西,我们习惯将那些经常被修改的目录放在这个目录下.包括各种日志文件.
+    /run 这是一个临时文件系统,存储系统启动以来的信息.当系统重启时这个目录下的文件应该被删除或者清除.如果你的系统上有/var/run目录,它应该指向run.
+
+/bin,/usr/bin是提供给普通用户使用的命令,而/sbin,/usr/sbin则是给root使用的命令.
+/var 也是一个很重要的目录.系统上跑了很多程序,那么每个程序都会有相应的日志产生,而这些日志就被记录到这个目录下.具体在/var/log/目录下,另外mail的预设放置也是这里.
+
+Linux系统是一种典型的多用户系统,不同的用户处于不同的地位,拥有不同的权限.为了保护系统的安全性,Linux系统对不同的用户访问同一文件(包括目录文件)的权限做了不同的规定.
+在Linux中可以使用ls -l命令来显示一个文件的属性机器文件所属的用户和组.
+例如:[root@server]# ls -l
+total 24
+lrwxrwxrwx.   1 root root    7 May 11 08:33 bin -> usr/bin
+dr-xr-xr-x.   6 root root 4096 Oct 16 23:08 boot
+drwxr-xr-x.  20 root root 3240 Oct 17 22:35 dev
+drwxr-xr-x. 133 root root 8192 Oct 17 22:35 etc
+drwxr-xr-x.   3 root root   18 Oct 16 23:07 home
+lrwxrwxrwx.   1 root root    7 May 11 08:33 lib -> usr/lib
+lrwxrwxrwx.   1 root root    9 May 11 08:33 lib64 -> usr/lib64
+drwxr-xr-x.   2 root root    6 May 11 08:33 media
+drwxr-xr-x.   3 root root   18 Oct 16 23:03 mnt
+drwxr-xr-x.   2 root root    6 May 11 08:33 opt
+dr-xr-xr-x. 270 root root    0 Oct 17 22:35 proc
+dr-xr-x---.   5 root root  222 Oct 17 00:44 root
+drwxr-xr-x.  40 root root 1200 Oct 21 21:53 run
+lrwxrwxrwx.   1 root root    8 May 11 08:33 sbin -> usr/sbin
+drwxr-xr-x.   2 root root    6 May 11 08:33 srv
+dr-xr-xr-x.  13 root root    0 Oct 17 22:35 sys
+drwxrwxrwt.  20 root root 4096 Oct 21 22:15 tmp
+drwxr-xr-x.  12 root root  144 Oct 16 23:00 usr
+drwxr-xr-x.  21 root root 4096 Oct 16 23:08 var
+其中文件属性的第一部分由10个字符确定.
+第0位确定文件类型.d:目录;-:文件;l:链接文档(link file);b:装置文件里面的可供储存的接口设备(可随机存取装置),例如硬盘、软盘;c:装置文件里面的串行端口设备,例如键盘、鼠标(一次性读取装置);s:套接字,数据接口文件,通常备用在网络的数据传输;p:FIFO文件.
+第1-3位确定属主(文件所有者)对该文件所拥有的权限rwx,可读可写可执行,-为没有权限.
+第4-6位确定属组(所有者的同组用户)对该文件的所拥有的权限,同样用r、w、x、-来表示.
+第7-9位确定确定其他用户对该文件所拥有的权限.
+第二段暂时未知.
+第三段为属主.
+第四段为属组.
+第五段为文件大小.
+第六段为最后修改时间.
+第七段为文件名,白色的为常规文件,看色的为文件夹,绿色的为可执行文件,浅蓝色的为链接文件.
+对于root用户来说,一般情况下文件的权限对其不起作用.
+
+文件的权限意义:
+r:可读取文件的内容.
+w:可以编辑、增加或修改文件的内容,但不能删除该文件(文件删除的权限是目录的).
+x:该文件有被系统执行的权限,在Windows下可执行一般通过扩展名来判断,如.exe,.bat.com等,在Linux中有是否具有x权限来决定的,与文件名没有绝对关系.
+
+目录的权限意义:
+r:可以读取目录结果列表,即可以查询该目录下的文件名数据,利用ls将该目录的内容列表显示出来.
+w:可以更改目录结果列表,包括:
+    a:新建文件与目录
+    b:删除以及存在的文件与目录(不管该文件的权限为何)
+    c:将已存在的文件或目录重命名
+    d:转移目录内的文件、目录位置
+x:用户可以进入该目录成为工作目录
+
+/tmp # drwxrwxrwt 最后一位的t是特殊权限,针对目录,表示目录中的文件只能被root、文件属主、目录属主删除.其他用户就算有写的权限也无法删除该目录下的文件.
+关于s和t字符
+SBIT(stick bit):粘滞位
+    只对目录有效
+    普通用户对该目录有w和x权限
+    若没有粘滞位,则普通用户可以对目录文件下的文件夹/子目录进行删除操作(因为普通用户对目录有w权限),包括其他用户建立的目录和文件.若赋了SBIT,则普通用户只能删除自己创建的文件/目录,而不能删除不属于自己的文件/目录.显示为有蓝色背景的目录.
+命令语法:
+chmod o+t dirName
+eg:
+chmod o+t temp # drwxr-xr-t
+chmod o-t temp # drwxr-xr-x
+
+更改文件属组:chgrp(change group)
+语法:
+chgrp [-R] 属组名 文件名
+-R表示递归更改文件属组,就是在更改某个目录文件的属组时如果加上该参数那么该目录下的所有文件的属组都会改变
+
+更改文件属主,同时也可以修改文件属组:chown(change owner)
+语法:
+chown [-R] 属主名 文件名
+chown [-R] 属主名:属组名 文件名
+eg:
+cd /home/Bean/Public/
+chgrp root doc1.txt
+chown root:Bean doc1.txt
+chown Bean doc1.txt
+
+更改文件属性:chmod(change mode)
+权限rwx的权值分别为4、2、1
+常用的权限:没有权限(0)、只可执行(1)、只读(4)、可读可执行(5)、可读可写(6)、可读可写可执行(7).一般不会给没有2和3,没有实际意义,但也可以给.
+更改文件可以用数字也可以用符号.三种身份:user、group、others,a代表全部.
+语法:
+chmod [-R] value 文件或者目录
+eg:
+数字
+chmod 777 doc1.txt
+chmod 1 doc1.txt  # ---------x相当于001
+chmod 11 doc1.txt # ------x--x相当于010
+chmod 232 doc1.txt # --w--wx-wx也是可以的,在命令行下可以用cat查看,但在可视化界面下无法查看,可能也没办法修改.
+符号
+chmod u=rwx,g=r-- doc1.txt # o缺省时为原来的权限 -rwxr----x
+chmod u=wr doc1.txt # rwx没有顺序要求
+chmod u+rwx,g-rw doc1.txt #可直接在原权限上进行添加权限和移除权限,用+和- -rwx-----x
+chmod a+rwx doc1.txt # 给三种身份都加上rwx的权限
+chmod 644 doc1.txt #回到文件初始的状态,所有者可读可写,所属组和其他用户只有读取的权限.
+
+Linux目录结构为树状结构,最顶级的目录为根目录/.其他目录通过挂载将它们添加到树中,通过解除挂载移除它们.
+绝对路径:由根目录/写起.例如:/usr/share/doc这个目录.
+相对路径:不是由/写起.例如由/usr/share/doc要到/usr/share/man底下时可以写成cd ../man.这就是相对路径的写法.
+常用的处理目录的命令有:
+ls:列出目录.
+cd:切换目录.
+pwd:显示当前目录.
+mkdir:创建目录.
+rmdir:删除空目录.
+cp:复制文件或目录.
+rm:移除文件或目录.
+mv:移动文件或目录,修改文件名称或目录名称.
+
+用户管理:用户账号的添加、删除与修改;用户口令的管理;用户组的管理.
+
+vipw命令可快速打开该文件并进行修改,等同于vi /etc/passwd
+/etc/passwd文件保存的是账号的信息,部分内容如下:
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+avahi:x:70:70:Avahi mDNS/DNS-SD Stack:/var/run/avahi-daemon:/sbin/nologin
+tcpdump:x:72:72::/:/sbin/nologin
+Bean:x:1000:1000:Bean:/home/Bean:/bin/bash
+上面每一行都代表一个用户,每一行又通过七个:分为七个部分.各个部分含义如下:
+1.账号名称
+2.原来用来存放密码的,现在密码都放在/etc/shadow中,所以这里都是显示x
+3.UID,也就是使用者的D.默认的root为0,0-1000的最好留给系统使用.
+4.GID,也就是群组ID
+5.关于账号的一些说明信息(comment)
+6.账号的home目录,home目录就是登陆后的默认目录
+7.账号使用的shell.shell是用户与Linux系统之间的接口.Linux的shell有很多,常用的有sh(bourne shell),csh(c shell),ksh(korm shell),tcsh(tenex/tops-20 type c shell),bash(bourne again shell)(默认的shell).
+
+/etc/shadow是由pwconv命令根据/etc/passwd中的数据自动生成的.该文件保存的是用户密码的信息,部分内容如下:
+root:$6$AN8D7Srvkq3XfBWe$DUDYACYGhEXR2p6xfxU6DcoCtIWy3CIEIIH6ZlmkN2R7s5cu4VZQAaVJQ5xcezHz5tT8L3b6RNGMX5XyaGHEQ1::0:99999:7:::
+bin:*:18027:0:99999:7:::
+daemon:*:18027:0:99999:7:::
+adm:*:18027:0:99999:7:::
+lp:*:18027:0:99999:7:::
+Bean:$6$oNX/pld7FY2nXlqh$32UgbTsLFsTS/Jbomd/HTwCmvA5Tw1SBhLf.hUZriGUOePC7sVhr9rRQGcGt7E3WYYxg9M/NvhCOSa9796zxH/::0:99999:7:::
+testUser:$6$lXCSv0v5NOkMieRN$v27R2oFNo5mndXsbGIganSxZ8CDJRKxaDcYpTJBhRvpPUOYuHrg/gddFWhvQIajbvByaka7oxb9veMc1HiP7R/:18199:0:99999:7:::
+这里是由九个:来进行分割的.各个部分含义如下:
+1.账号名称
+2.加密后的密码.这一栏的第一个字符如果是*或者!则说明这是一个不能登陆的用户
+3.最近改动密码的日期,这里是一个数字,该值是修改密码的日期减去1970年1月1日的天数
+4.密码不可被变更的天数.设置了这个值则表示从变更密码的日期算起,多少天内无法再次修改密码.如果是0则没有限制
+5.密码需要重新变更的天数.可以设置一个数值强制让用户更换密码.如果是99999则没有限制
+6.密码过期预警天数.如果上面第5设置了密码需要重新变更的天数,则会在密码过期的前多少天进行提醒,提示用户其密码将在多少天后过期
+7.密码过期的宽恕时间.如果上面第5设置了密码需要重新变更的天数,且用户没有修改密码且到期了,该用户还可以继续使用的天数
+8.账号失效日期(以天数计).过了这个日期账号就不能用了
+9.预留
+
+/etc/group文件保存的是用户组信息.部分内容如下:
+root:x:0:
+bin:x:1:
+daemon:x:2:
+sys:x:3:
+adm:x:4:
+tty:x:5:
+disk:x:6:
+tcpdump:x:72:
+Bean:x:1000:
+组名:口令:组标识号(GID):组内成员列表
+一般组都是没有口令(密码)的,用一个x或*替代
+普通的组ID(GID)一般从1000开始
+组内成员列表用逗号(,)隔开.这个组可能是用户的主组也可能是附加组
+
+网络配置的相关命令:ifconfig、route、netstat、ip、ss、nmcli(centOS7.x)、ping、tcpdump、mtr、traceroute、tracepath、ifup、ifdown、setup、hostnamectl、等等很多
+网卡配置文件/etc/sysconfig/network-scripts/ifcfg-ens33
+
+
+
+
+
+
+
+
+
+
+
+
+
+命令:
+Ctrl+c 撤销命令的执行
+Ctrl+d 键盘结束输入,也可以用exit
+shift+pageup 往前翻页
+shift+pagedown 往后翻页
+
+whoami 查看当前用户
+shutdown -h now 立刻关机
+shutdown -h 10 十分钟后关机
+shutdown -h 23:47 系统将在23:47时关机
+shutdown -r now 重启系统
+shutdown -r 10 十分钟后重启系统
+shutdown -r 23:50 系统将在23:50时重启
+reboot 重启 等于shutdown -r now
+halt 关闭系统也叫停止机器 等于shutdown -h和poweroff
+init 0 关机
+init 6 重启
+shutdown -c 可以阻止即将关闭的系统
+
+ls:列出目录
+选项与参数:
+-a:全部文件,包括隐藏文件,以.开头.
+-l:列出详细信息,包括文件权限、属主、属组、文件大小等信息.
+-d:仅列出目录本身,而不列出目录内的文件数据.
+-i:显示文件的inode节点信息
+
+cd(change directory):切换目录
+cd [相对路径或绝对路径]
+cd 直接回到当前用户所在的home目录,比如/home/Bean,/root
+cd ./ 当前目录
+cd ../ 上一级目录
+cd .. 上一级目录
+cd /home/Bean/Public
+cd ~ 回到当前用户所在的home目录,比如/home/Bean,/root
+cd ./Public 
+
+pwd(print working directory):显示目前所在的目录
+pwd [-P]
+-P:显示出确实的路径,而非使用连结(link)路径,实际的路径
+[Bean@server ~]$ pwd #/home/Bean
+[root@server ~]# cd /var/mail
+[root@server mail]# pwd #/var/mail
+[root@server mail]# pwd -P #/var/spool/mail
+
+mkdir(make directory):创建新目录
+mkdir [-mp] 目录名称
+-m:配置文件的权限.直接配置,不需要看默认权限(umask)的脸色.
+-p:递归创建
+[Bean@server ~]$  cd /Documents
+[Bean@server Documents]$ mkdir test #test目录的权限为775
+[Bean@server Documents]$ mkdir -p test1/test2/test3 #递归创建test1,test2,test3
+[Bean@server Documents]$ mkdir -m 711 test4 #test4的权限为711
+
+rmdir(remove directory):删除空目录
+rmdir [-p] 目录名称
+-p:连同上一级(空的)目录也一起删除
+[Bean@server Documents]$ rmdir test #test目录已删除
+[Bean@server Documents]$ rmdir test1 #无法删除
+[Bean@server Documents]$ cd test1
+[Bean@server test1]$ touch readme.txt #在test1目录下创建readme.txt文件
+
+[Bean@server Documents]$ rmdir test1 #无法删除
+[Bean@server Documents]$ rmdir test1/test2/test3 #无法删除 
+[Bean@server Documents]$ rmdir -p test1 #提示目录不为空,删除失败
+[Bean@server Documents]$ rmdir -p test1/test2/test3 #会提示test1目录不为空,但test1下的test2和test2下的test3已成功删除.
+
+cp(copy):复制文件或目录
+cp [-adfilprsu] source destination
+cp [options] source1 source2 source3 ... directory
+选项与参数:
+-a:相当于-pdr
+-d:若source为连结文档(link file)则复制连结文档属性而非文件本身
+-f:force的意思,若destination已经存在且无法开启,则移除后再尝试一次,强制复制
+-i:若destination存在,在覆盖时会先询问是否覆盖
+-l:进行硬式连结(hard link)的连结档创建,而非复制文件本身
+-p:连同文件的属性一起复制过去,而非使用默认属性(备份常用)
+-r:递归持续复制,用于目录的复制
+-s:复制成为符号连结档(symbolic link),即[捷径]文件
+-u:若destination比source旧才升级destination
+
+rm(remove):移除文件或目录
+rm [-fir] 文件或目录
+-f:强制,忽略不存在的文件
+-i:删除前会询问是否删除
+-r:递归删除
+[Bean@server Documents]$ rm -rf temp
+
+mv(move):移动文件或目录,或修改名称
+mv [-fiu] source destination
+-f:强制,如果destination已经存在则将覆盖
+-i:若destination存在则询问是否覆盖
+-u:若destination存在且比source新才会update
+[Bean@server ~]$ touch ddd.txt #创建ddd.txt文件
+[Bean@server ~]$ cp ddd.txt Documents/ #将ddd.txt复制到Documents目录下
+[Bean@server ~]$ mv ddd.txt Documents/test1 #将ddd.txt文件移动到Documents/test1目录下,且不在当前目录下
+
+Linux常用的查看内容的命令有:
+cat:从第一行开始显示文件内容.
+tac:从最后一行开始显示文件内容.
+nl:显示行号.
+more:一页一页的显示文件内容
+less:与more类似,但less可以往前翻页.
+head:只看头几行
+tail:只看最后几行
+
+cat [-AbEnTv] file
+-A:
+-b:列出行号,仅针对非空白行做出行号显示,空白行不现实行号.
+-E:将结尾的断行字符$显示出来.
+-n:显示行号,包含空白行.
+-T:将tab键以^|显示出来.
+-v:列出一些看不出来的特殊字符.
+
+tac file
+从最后开始一行显示.
+
+nl [-bnw] file
+显示行号,不常用.
+-b:指定行号的方式
+-b a:表示不论是否时空行也列出行号.等同于cat -n.
+-b t:表示不显示空行的行号(默认值).
+-n:列出行号的表示方法.
+-n ln:行号在窗口的最左方显示.
+-n rn:行号在行号栏位的右侧显示,不补零.
+-n rz:行号在行号栏位的右侧显示,且在行号前面补零,补到位数等同于行号的栏位数.
+-w:表示行号栏位占用的位数.例如nl -w 5 tempFile 表示行号栏位占用五位.默认占用六位.
+
+more
+一页一页翻动
+more file
+运行时可以输入的命令:
+空格键(space):向下翻一页
+回车键(enter):向下翻一行
+b或者Ctrl+b:往回翻页
+f:立刻显示出档名以及目前显示的行数
+q:退出
+
+less
+一页一页翻动,和more差不多,只是more是直接打印在窗口上,而less退出时将不会打印在窗口上.
+less file
+运行时可以输入的命令:
+空格键(space):向下翻一页
+回车键(enter):向下翻一行
+b或者Ctrl+b:往回翻页
+pagedown:向下翻页
+pageup:向上翻页
+q:退出
+
+head:取出文件的前面几行,默认十行
+head [-n number] file
+-n 后面接数字,代表显示几行
+
+tail:取出文件的最后几行,默认十行
+head [-n number] -f file
+-n 后面接数字,代表显示几行
+-f:持续监测后面的字符,需要按下ctrl+c才会退出
+
+添加新的用户,实际就是在系统文件/etc/passwd、/etc/shadow、/etc/group、/etc/gshadow中增加一条数据,同时也会在目录/var /spool/mial/下增加一个以用户名为名的文件夹
+useradd 选项 用户名
+参数说明:
+选项:
+-c:comment指定一段注释性的描述
+-d:目录.指定用户主目录,如果此目录不存在,则同时使用-m选项可以创建主目录
+-g:用户组,指定用户所属的用户组
+-G:用户组,指定用户所属的附加组
+-s:shell,指定用户的登陆shell
+-u:用户号,指定用户的用户号.如果同时有-o选项则可以重复使用其他用户的标识号
+用户名:
+指定新账号的登录名
+
+新添加的用户需要root用户设置其登陆密码,若未设置密码则该账号的密码未知.以下命令可以设置指定用户的密码.
+passwd 用户名
+普通用户修改自己的密码只需用命令passwd就行.
+passwd命令基本都是root使用的,以下这些也是
+passwd [option] userName 
+-l:锁定用户,即禁用
+-u:解锁用户
+-d:使账号无口令,下次登陆时系统将不允许该用户登陆
+-f:强制用户下次登陆时修改密码
+[root@server ~]# passwd -d testUser
+
+删除账号,实际就是将/etc/passwd、/etc/shadow、/etc/group、/etc/gshadow、/var/spool/mail/等系统文件中的该用户记录删除.
+userdel 选项 用户名
+-r:把用户的主目录一起删除
+
+修改账号
+usermod 选项 用户名
+选项包括-c -m -d -g -G -s -u -o等.可参考useradd
+
+添加用户组
+groupadd [option] groupName
+-g:指定新用户组的组ID(GID)
+-o:一般与-g同时使用,表示新用户组的GID可以与系统已有用户组的GID相同
+
+删除用户组
+groupdel groupName
+
+修改用户组
+groupmod [option] groupName
+-g:指定新的GID
+-o:一般与-g同时使用,表示新用户组的GID可以与系统已有用户组的GID相同
+-n:重命名
+
+Linux磁盘管理
+Linux磁盘管理好坏直接关系到整个系统的性能问题
+Linux磁盘管理常用的三个命令为df、du和fdisk
+df:列出文件系统的整体磁盘使用量.
+du:检查磁盘空间的使用量.
+fdisk:用于磁盘分区(partition).
+
+df [option] [目录或文件名]
+-a:列出所有的文件系统,包括系统特有的/proc等文件系统.
+-k:以KBytes的容量显示各个文件系统.
+-m:以MBytes的容量显示各个文件系统.
+-h:以人们较易阅读的GBytes、MBytes、KBytes等格式自行显示.
+-H:以M=1000K取代M=1024K的进位方式显示.
+-T:显示文件系统类型,连同该partition的filesystem名称(例如ext3)也列出.
+-i:不用硬盘容量,而以inode的数量来显示.
+[root@server ~]# df -h
+
+du [option] [文件或目录名称]
+-a:里出差所有的文件与目录容量,默认仅统计目录地下的文件量而已.
+-h:以人们较易阅读的GBytes、MBytes、KBytes等格式自行显示.
+-s:列出总量而已,而不列出每个各别的目录占用容量.
+-S:不包括子目录下的总计.
+-k:以KBytes列出容量.
+-m:以MBytes列出容量.
+[root@server ~]# du -a
+
+fdisk [option] 装置名称
+-l:输出后面接的装置所有的分区内容.若仅有fdisk -l时,则系统将会把整个系统内能够搜寻到的装置的分区均列出来.
+[root@server ~]# fdisk -l   #列出所有分区信息
+[root@server ~]# df /  #找出根目录磁盘名
+
+磁盘格式化
+mkfs(make filesystem)
+mkfs [-t 文件系统格式] 装置名称
+-t:选项后面可以接文件系统格式,例如ext3、ext2、vfat等
+mkfs[tab][tab]可以查看支持的文件系统格式(按两下tab键)
+
+磁盘检查
+fsck(filesystem check):用来检查和维护不一致的文件系统
+若系统掉电或者磁盘发生问题,可利用fsck命令对文件系统进行检查
+fsck [option] 装置名称
+-t:指定文件系统格式
+-s:按顺序一个一个地执行fsck的指令来检查
+-A:对/etc/fstab中所有列出来的分区做检查
+-C:显示完整的检查进度
+-d:打印出来e2fsck的debug结果
+-p:同时又-A条件时,同时又多个fsck的检查一起执行
+-R:同时又-A条件时省略/不检查
+-V:详细显示模式
+-a:如果检查有错则自动修复
+-r:如果检查有错则由使用者回答是否修复
+-y:指定检测每个文件是自动输入yes,在不确定哪些是不正常的时候可以执行#fsck -y全部检查修复
+fsck[tab][tab]查看系统有多少文件系统支持fsck命令(按两下tab键)
+
+磁盘挂载与卸除
+Linux的磁盘挂载使用mount命令,卸载使用unmount命令
+mount [-t 文件系统] [-L label名] [-o 额外选项] [-n] 装置名称 挂载点
+unmount [-fn] 装置文件名或挂载点
+-f:强制卸载,可用在类似网络文件(NFS)无法读取到的情况下
+-n:不升级/etc/mtab情况下卸载
+
+
+
+
+
+
