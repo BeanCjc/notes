@@ -1,0 +1,20 @@
+﻿UI(dependence:Application):Controller->Application
+Application(thin.define ApplicationServiceInterface and implement ApplicationServiceInterface. mediator send the command. dependence:Infrasturct)
+Domain(  define Generic RepositoryInterface and the interface of uow(unit of work).
+	DomainModels.
+	define DomainCommandModel and  implement DomainCommandHandler
+	define DomainEventModel and implement DomainEventHandler
+	common validations
+	dependence:Domain.Core)
+Domain.Core(Define abstract class,include:event,command,message,entity,valueObject,interface of mediatorHandler\
+	define DomainNotificationModel and implement DomainNotificationHandler)
+Infrastruct(implement interface of Domain,include:Generic RepositoryInterface,uow,interface of mediatorHandler. 
+	define DbContext and ESContext
+	dependence:Domain.Core,Domain)
+
+
+ValueObject
+DomainModel
+DomainCommandModel
+DomainEventModel
+DomainNotificationModel
